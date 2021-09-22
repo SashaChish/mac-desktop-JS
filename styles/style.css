@@ -304,6 +304,12 @@
     margin: 0;
   }
 }
+@media (max-width: 425px) {
+  .app__footer {
+    max-width: 90%;
+    top: 95%;
+  }
+}
 .footer {
   width: 550px;
   display: flex;
