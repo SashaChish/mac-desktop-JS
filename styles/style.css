@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotomono/v13/L0xuDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_3vuPQw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/robotomono/v13/L0xuDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_XvqPQw.ttf) format('truetype');
+}
 /*---------- Global styles ---------- */
 * {
   box-sizing: border-box;
@@ -17,6 +31,13 @@
   float: left;
   opacity: 0.6;
 }
+@media (max-width: 425px) {
+  .fa.fa-search {
+    width: 0px;
+    height: 0px;
+    left: 10px;
+  }
+}
 .fa_shadow {
   filter: drop-shadow(1px 3px 5px white);
 }
@@ -30,19 +51,27 @@
 .input:focus {
   outline: none;
 }
+@media (max-width: 425px) {
+  .input {
+    width: 95px;
+    padding: 0 0 0 30px;
+  }
+}
 /*---------- Main styles ---------- */
 .app {
   width: 100%;
   height: 100vh;
-  background: url('https://pixabay.com/get/gac239adb499fbb2254f63656f30a608368f64cfca247ace2ac5e33adf48d7c2690068bdedc6823663d3a4f1b2ed4c47ed5343438f9183e65b27d8db53c379153_1280.jpg') 0 0 / cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: url('../images/background/background.jpg') center center / cover no-repeat;
+}
+@media (max-width: 768px) {
+  .app {
+    align-items: center;
+  }
 }
 /*---------- Header styles ---------- */
-.app__header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 50;
-}
 .header {
   width: 100%;
 }
@@ -71,10 +100,12 @@
 }
 /*---------- Window styles ---------- */
 .app__window {
-  position: absolute;
-  top: 20%;
-  left: 5%;
-  z-index: 50;
+  margin: 0 0 50px 50px;
+}
+@media (max-width: 768px) {
+  .app__window {
+    margin: 0;
+  }
 }
 .window {
   width: 35vw;
@@ -87,6 +118,17 @@
 }
 .window_back-color {
   background: white;
+}
+@media (max-width: 768px) {
+  .window {
+    min-width: 450px;
+    height: 50vh;
+  }
+}
+@media (max-width: 425px) {
+  .window {
+    min-width: 350px;
+  }
 }
 .window__header {
   height: 13%;
@@ -122,6 +164,27 @@
   background: gray;
   box-shadow: 1px 1px 5px gray;
   margin: 0 0 0 6px;
+}
+.window__title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .window__title {
+    font-size: 12px;
+    margin: 0 0 0 20px;
+  }
+}
+@media (max-width: 425px) {
+  .window__title {
+    margin: 0;
+  }
+}
+@media (max-width: 425px) {
+  .window__title h3 {
+    font-size: large;
+  }
 }
 .window__search {
   margin: 0 10px 0 0;
@@ -175,6 +238,12 @@
 .content::-webkit-scrollbar-track-piece {
   margin: 2px;
 }
+@media (max-width: 425px) {
+  .content {
+    min-width: 250px;
+    min-height: 250px;
+  }
+}
 /*---------- Hide and show content in window ----------*/
 .hide {
   animation: hide 0.35s forwards;
@@ -226,16 +295,31 @@
 }
 /*---------- Footer styles ---------- */
 .app__footer {
+  align-self: center;
   position: absolute;
-  bottom: 5%;
-  left: 40%;
-  z-index: 1;
+  top: 88%;
+}
+@media (max-width: 768px) {
+  .app__footer {
+    margin: 0;
+  }
 }
 .footer {
-  width: 35%;
+  width: 550px;
+  display: flex;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .footer {
+    max-width: 70%;
+  }
+}
+@media (max-width: 425px) {
+  .footer {
+    max-width: 90%;
+  }
 }
 .footer__wrap {
-  min-width: 450px;
   width: 80%;
   height: 80px;
   border-radius: 20px;
@@ -246,6 +330,16 @@
 .footer__wrap_back-color {
   background: rgba(189, 190, 189, 0.7);
 }
+@media (max-width: 768px) {
+  .footer__wrap {
+    min-width: 500px;
+  }
+}
+@media (max-width: 425px) {
+  .footer__wrap {
+    min-width: 350px;
+  }
+}
 .footer__img {
   flex-basis: 15%;
   height: 60px;
@@ -253,6 +347,12 @@
 .footer__img:hover {
   cursor: pointer;
   animation: fokus 0.5s forwards;
+}
+@media (max-width: 425px) {
+  .footer__img {
+    flex-basis: 16%;
+    height: 55px;
+  }
 }
 @keyframes fokus {
   from {
@@ -281,6 +381,11 @@
   color: white;
   text-align: center;
   vertical-align: middle;
+}
+@media (max-width: 425px) {
+  .footer__img:first-child::before {
+    left: 160%;
+  }
 }
 .footer__img-seperator {
   height: 60px;

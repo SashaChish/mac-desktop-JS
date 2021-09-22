@@ -65,7 +65,7 @@ class API {
           background.indexOf('")')
         )
 
-        app.style.background = `url(${url}) 0 0 / cover no-repeat`
+        app.style.background = `url(${url}) center center / cover no-repeat`
       })
     }
 
@@ -74,18 +74,18 @@ class API {
 
   addlistenerContent() {
     const settings = getEl('.footer__img.settings')
-    const content = getEl('.content')
+    const window = getEl('.window')
     this.show = false
 
     const show = () => {
-      content.classList.remove('hide')
-      content.classList.add('show')
+      window.classList.remove('hide')
+      window.classList.add('show')
       this.show = false
     }
 
     const hide = () => {
-      content.classList.remove('show')
-      content.classList.add('hide')
+      window.classList.remove('show')
+      window.classList.add('hide')
       this.show = true
     }
 
