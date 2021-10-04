@@ -5,8 +5,10 @@ init()
 async function init() {
   const api = new API({ key, imagesName })
 
-  await api.insertImgToWindow()
-  api.insertImageToFooter()
+  await api.getImage()
+  api.searchImg()
+  api.insertImgToWindow()
+  api.insertImgToFooter()
   api.addListenerImg()
-  api.addlistenerContent()
+  api.addListenerAppWindow()
 }

@@ -4,10 +4,11 @@ setInterval(() => {
 
 document.addEventListener('DOMContentLoaded', renderTime)
 
-function dateNow() {
-  const [day, month, dayOfMonth] = new Date().toDateString().split(' ')
-  let MM = new Date().getMinutes()
-  let HH = new Date().getHours()
+function getDate() {
+  const date = new Date()
+  const [day, month, dayOfMonth] = date.toDateString().split(' ')
+  let MM = date.getMinutes()
+  let HH = date.getHours()
 
   MM = MM < 10 ? '0' + MM : MM
   HH = HH < 10 ? '0' + HH : HH
@@ -17,5 +18,5 @@ function dateNow() {
 
 function renderTime() {
   const p = getEl('#date')
-  p.innerText = dateNow()
+  p.innerText = getDate()
 }

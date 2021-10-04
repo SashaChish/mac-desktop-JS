@@ -1,10 +1,29 @@
 const createEl = name => document.createElement(name)
 const getEl = selector => document.querySelector(selector)
 
+const styledEl = (styles, nodeList) => {
+  for (let key in styles) {
+    Array.from(nodeList).forEach(node => (node.style[key] = styles[key]))
+  }
+}
+
+const removeChild = node => {
+  while (node.firstChild) node.removeChild(node.firstChild)
+}
+
+const addClass = (nodes = [], ...classes) => {
+  ;(Array.isArray(nodes) ? nodes : [nodes]).forEach(node =>
+    node.classList.add(...classes)
+  )
+}
+
 class API {
   constructor({ key, imagesName = [] }) {
     this.key = key
-    this.images = imagesName
+    this.imagesName = imagesName
+    this.images = []
+    this.filterImages = null
+    this.show = false
   }
 
   async getImage() {
@@ -13,47 +32,83 @@ class API {
     )
     const data = await responce.json()
 
-    return data.hits
+    this.images = data.hits.map(({ id, largeImageURL: url, tags }) => ({
+      id,
+      url,
+      tags,
+    }))
   }
 
-  async insertImgToWindow() {
-    const images = await this.getImage()
-    const bodyContent = getEl('.content')
+  insertImgToWindow() {
+    const content = getEl('.content')
+    const { children: images } = content
 
-    images.forEach(img => {
+    if (images.length) removeChild(content)
+    ;(this.filterImages || this.images).forEach(img => {
       const div = createEl('div')
       const span = createEl('span')
 
-      div.style.background = `url(${img.largeImageURL}) center center/cover`
-      div.classList.add('content__img')
-      span.classList.add('img__border')
-      bodyContent.appendChild(div).appendChild(span)
+      div.style.background = `url(${img.url}) center center/cover`
+      addClass(div, 'content__img')
+      addClass(span, 'img__border')
+
+      content.appendChild(div).appendChild(span)
     })
+
+    switch (images.length) {
+      case 1:
+        styledEl(
+          {
+            flexBasis: '50%',
+            height: '50%',
+          },
+          images
+        )
+        break
+      case 2:
+        styledEl(
+          {
+            flexBasis: '55%',
+            height: '40%',
+          },
+          images
+        )
+        break
+    }
   }
 
-  insertImageToFooter() {
+  insertImgToFooter() {
     const footerWrap = getEl('.footer__wrap')
-    const { images } = this
+    const { imagesName } = this
 
-    images.forEach((name, index) => {
+    imagesName.forEach((name, index) => {
       const div = createEl('div')
-      const settingsClass =
-        name === 'settings' ? ['footer__img', 'settings'] : ['footer__img']
+      const classes = name === 'settings' ? ['footer__img', 'settings'] : ['footer__img']
 
-      if (images.length - 1 === index) {
-        const seperator = createEl('div')
+      if (imagesName.length - 1 === index) {
+        const separator = createEl('div')
 
-        seperator.classList.add('footer__img-seperator')
-        footerWrap.appendChild(seperator)
+        addClass(separator, 'footer__img-separator')
+        footerWrap.appendChild(separator)
       }
 
       div.style.background = `url('images/${name}.png') center center / cover no-repeat`
-      div.classList.add(...settingsClass)
+      addClass(div, ...classes)
       footerWrap.appendChild(div)
     })
   }
 
-  async addListenerImg() {
+  searchImg() {
+    const input = getEl('.input')
+
+    input.addEventListener('keyup', e => {
+      this.filterImages = this.images.filter(img => img.tags.includes(e.target.value))
+      this.insertImgToWindow()
+      this.addListenerImg()
+    })
+  }
+
+  addListenerImg() {
     const contentItems = [...getEl('.content').children]
     const app = getEl('.app')
 
@@ -72,20 +127,19 @@ class API {
     contentItems.forEach(changeBackground)
   }
 
-  addlistenerContent() {
+  addListenerAppWindow() {
     const settings = getEl('.footer__img.settings')
-    const window = getEl('.window')
-    this.show = false
+    const appWindow = getEl('.window')
 
     const show = () => {
-      window.classList.remove('hide')
-      window.classList.add('show')
+      appWindow.classList.remove('hide')
+      appWindow.classList.add('show')
       this.show = false
     }
 
     const hide = () => {
-      window.classList.remove('show')
-      window.classList.add('hide')
+      appWindow.classList.remove('show')
+      appWindow.classList.add('hide')
       this.show = true
     }
 
