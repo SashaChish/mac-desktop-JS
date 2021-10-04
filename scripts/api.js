@@ -102,7 +102,7 @@ class API {
     const input = getEl('.input')
 
     input.addEventListener('keyup', e => {
-      this.filterImages = this.images.filter(img => img.tags.includes(e.target.value))
+      this.filterImages = this.images.filter(img => img.tags.includes(e.target.value.toLowerCase()))
       this.insertImgToWindow()
       this.addListenerImg()
     })
